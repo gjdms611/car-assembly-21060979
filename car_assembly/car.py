@@ -14,3 +14,13 @@ class CarBuild:
 
     def is_engine_broken(self) -> bool:
         return self.engine is not None and self.engine.is_broken
+
+    def first_incompatibility(self) -> Optional[str]:
+        return (
+            self.engine.incompatibility_with_car_type(self.car_type)
+            or self.brake.incompatibility_with_car_type(self.car_type)
+            or self.brake.incompatibility_with_steering(self.steering)
+        )
+
+    def is_compatible(self) -> bool:
+        return self.first_incompatibility() is None
