@@ -135,25 +135,8 @@ def is_valid_check():
     return build_from_globals().is_compatible()
 
 def run_produced_car():
-    if not is_valid_check():
-        print("자동차가 동작되지 않습니다")
-        return
-    if q1 == 4:
-        print("엔진이 고장나있습니다.")
-        print("자동차가 움직이지 않습니다.")
-        return
-
-    print(f"Car Type : {CAR_TYPE_LABEL[CarType(q0)]}")
-
-    engine_label = ENGINE_BY_CODE[q1]().run_label()
-    if engine_label is not None:
-        print(f"Engine   : {engine_label}")
-
-    print(f"Brake    : {BRAKE_BY_CODE[q2]().run_label()}")
-
-    print(f"Steering : {STEERING_BY_CODE[q3]().run_label()}")
-
-    print("자동차가 동작됩니다.")
+    for line in build_from_globals().run_report():
+        print(line)
 
 def test_produced_car():
     print(build_from_globals().test_report())
