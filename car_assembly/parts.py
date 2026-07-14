@@ -98,3 +98,7 @@ class SteeringPart(Part):
 class BoschSteering(SteeringPart):
     label = "Bosch"
     is_bosch = True
+
+
+class MobisSteering(SteeringPart):
+    label = "Mobis"

@@ -146,3 +146,13 @@ def test_bosch_steering():
     assert steering.is_bosch is True
     assert steering.selection_message() == "BOSCH 조향장치를 선택하셨습니다."
     assert steering.run_label() == "Bosch"
+
+
+from car_assembly.parts import MobisSteering
+
+
+def test_mobis_steering():
+    steering = MobisSteering()
+    assert steering.is_bosch is False
+    assert steering.selection_message() == "MOBIS 조향장치를 선택하셨습니다."
+    assert steering.run_label() == "Mobis"
