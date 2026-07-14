@@ -28,3 +28,13 @@ class CarTypeConstrained:
         if self.unsupported_car_type is not None and car_type == self.unsupported_car_type:
             return f"{CAR_TYPE_LABEL[car_type]}에는 {self.label}{self.car_type_conflict_noun} 사용 불가"
         return None
+
+
+class EnginePart(CarTypeConstrained, Part):
+    unit_label = "엔진을"
+    car_type_conflict_noun = "엔진"
+    is_broken: bool = False
+
+
+class GMEngine(EnginePart):
+    label = "GM"

@@ -33,3 +33,20 @@ def test_car_type_constrained_reports_conflict():
 def test_car_type_constrained_allows_other_car_types():
     part = _DummyConstrainedPart()
     assert part.incompatibility_with_car_type(CarType.SEDAN) is None
+
+
+from car_assembly.parts import GMEngine
+
+
+def test_gm_engine_label_and_message():
+    engine = GMEngine()
+    assert engine.selection_message() == "GM 엔진을 선택하셨습니다."
+    assert engine.run_label() == "GM"
+    assert engine.is_broken is False
+
+
+def test_gm_engine_compatible_with_every_car_type():
+    engine = GMEngine()
+    assert engine.incompatibility_with_car_type(CarType.SEDAN) is None
+    assert engine.incompatibility_with_car_type(CarType.SUV) is None
+    assert engine.incompatibility_with_car_type(CarType.TRUCK) is None
