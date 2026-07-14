@@ -2,7 +2,7 @@ import time
 import sys
 
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
-from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE
+from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE, STEERING_BY_CODE
 
 CLEAR_SCREEN = "\033[H\033[2J"
 
@@ -120,10 +120,7 @@ def select_brake(a):
 def select_steering(a):
     global q3
     q3 = a
-    if a == 1:
-        print("BOSCH 조향장치를 선택하셨습니다.")
-    elif a == 2:
-        print("MOBIS 조향장치를 선택하셨습니다.")
+    print(STEERING_BY_CODE[a]().selection_message())
 
 def is_valid_check():
     if q0 == SEDAN and q2 == CONTINENTAL:
@@ -155,10 +152,7 @@ def run_produced_car():
 
     print(f"Brake    : {BRAKE_BY_CODE[q2]().run_label()}")
 
-    if q3 == 1:
-        print("Steering : Bosch")
-    elif q3 == 2:
-        print("Steering : Mobis")
+    print(f"Steering : {STEERING_BY_CODE[q3]().run_label()}")
 
     print("자동차가 동작됩니다.")
 
