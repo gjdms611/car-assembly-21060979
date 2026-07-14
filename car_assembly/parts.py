@@ -88,3 +88,13 @@ class BoschBrake(BrakePart):
 
 
 BRAKE_BY_CODE = {1: MandoBrake, 2: ContinentalBrake, 3: BoschBrake}
+
+
+class SteeringPart(Part):
+    unit_label = "조향장치를"
+    is_bosch: bool = False
+
+
+class BoschSteering(SteeringPart):
+    label = "Bosch"
+    is_bosch = True

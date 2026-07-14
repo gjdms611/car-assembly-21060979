@@ -136,3 +136,13 @@ def test_brake_by_code_maps_input_number_to_class():
     assert BRAKE_BY_CODE[1] is MandoBrake
     assert BRAKE_BY_CODE[2] is ContinentalBrake
     assert BRAKE_BY_CODE[3] is BoschBrake
+
+
+from car_assembly.parts import BoschSteering
+
+
+def test_bosch_steering():
+    steering = BoschSteering()
+    assert steering.is_bosch is True
+    assert steering.selection_message() == "BOSCH 조향장치를 선택하셨습니다."
+    assert steering.run_label() == "Bosch"
