@@ -92,6 +92,10 @@ def update_car(car_id, field, value, path=DEFAULT_DATA_FILE):
     return target, None
 
 
+def find_cars_by_field(field, value, path=DEFAULT_DATA_FILE):
+    return [car for car in load_cars(path) if car[field] == value]
+
+
 def delete_car(car_id, path=DEFAULT_DATA_FILE):
     cars = load_cars(path)
     remaining = [car for car in cars if car["id"] != car_id]

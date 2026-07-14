@@ -6,6 +6,7 @@ from crud.repository import (
     create_car,
     delete_car,
     find_car,
+    find_cars_by_field,
     is_valid_combination,
     list_cars,
     next_id,
@@ -131,3 +132,29 @@ def test_delete_car_existing_and_missing(data_path):
     assert delete_car(created["id"], path=data_path) is True
     assert find_car(created["id"], path=data_path) is None
     assert delete_car(created["id"], path=data_path) is False
+
+
+def test_find_cars_by_field_matches_found(data_path):
+    created, _ = create_car(1, 1, 1, 1, path=data_path)
+
+    result = find_cars_by_field("engine_code", 1, path=data_path)
+
+    assert result == [created]
+
+
+def test_find_cars_by_field_no_matches(data_path):
+    create_car(1, 1, 1, 1, path=data_path)
+
+    result = find_cars_by_field("engine_code", 3, path=data_path)
+
+    assert result == []
+
+
+def test_find_cars_by_field_multiple_matches(data_path):
+    first, _ = create_car(1, 1, 1, 1, path=data_path)
+    second, _ = create_car(2, 1, 1, 1, path=data_path)
+    create_car(3, 3, 3, 1, path=data_path)
+
+    result = find_cars_by_field("engine_code", 1, path=data_path)
+
+    assert result == [first, second]

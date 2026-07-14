@@ -4,7 +4,14 @@ import sys
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
 from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE
 from car_assembly.steering import STEERING_BY_CODE
-from crud.repository import create_car, delete_car, find_car, list_cars, update_car
+from crud.repository import (
+    create_car,
+    delete_car,
+    find_car,
+    find_cars_by_field,
+    list_cars,
+    update_car,
+)
 
 CLEAR_SCREEN = "\033[H\033[2J"
 
@@ -107,7 +114,8 @@ def do_read():
     clear()
     print("1. 전체 목록")
     print("2. ID로 검색")
-    choice = read_int("INPUT > ", 1, 2)
+    print("3. 필드 값으로 검색")
+    choice = read_int("INPUT > ", 1, 3)
     if choice is None:
         return
 
@@ -123,12 +131,35 @@ def do_read():
             print("등록된 데이터 없음")
         for car in cars:
             print(describe_car(car))
-    else:
+    elif choice == 2:
         car_id = read_int("검색할 ID > ", 1, 10**9)
         if car_id is None:
             return
         car = find_car(car_id)
         print(describe_car(car) if car else "해당 ID 없음")
+    else:
+        print("검색할 필드를 선택하세요")
+        print("1. car_type  2. engine_code  3. brake_code  4. steering_code")
+        field_choice = read_int("INPUT > ", 1, 4)
+        if field_choice is None:
+            return
+        field = ["car_type", "engine_code", "brake_code", "steering_code"][field_choice - 1]
+
+        prompt_by_field = {
+            "car_type": prompt_car_type,
+            "engine_code": prompt_engine,
+            "brake_code": prompt_brake,
+            "steering_code": prompt_steering,
+        }
+        value = prompt_by_field[field]()
+        if value is None:
+            return
+
+        cars = find_cars_by_field(field, value)
+        if not cars:
+            print("해당 조건에 맞는 데이터 없음")
+        for car in cars:
+            print(describe_car(car))
 
     input("계속하려면 Enter > ")
 
