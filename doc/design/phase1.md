@@ -87,3 +87,55 @@
 - [ ] `pytest tests/test_car_type.py -v` 실행 결과 2개 테스트 모두 PASS
 - [ ] `git log --oneline -2`로 커밋 2개가 순서대로 존재하는지 확인
 - [ ] 원본 `assembly.py`를 아직 건드리지 않았는지 확인 (`git diff HEAD~2 -- assembly.py`가 비어 있어야 함)
+
+## 태스크 1.3: assembly.py 통합 (strangler-fig 컷오버)
+
+Phase 0에서 만든 캐릭터라이제이션 테스트가 있어야 이 스텝을 안전하게 진행할 수 있다.
+
+1. 통합 전 확인: `pytest tests/test_assembly_characterization.py -v` -> 16개 전부 PASS 확인
+2. `assembly.py` 최상단 import 영역에 추가:
+
+   ```python
+   from car_assembly.car_type import CAR_TYPE_LABEL, CarType
+   ```
+
+3. `assembly.py`의 `select_car_type()` 함수 전체를 아래로 교체:
+
+   ```python
+   def select_car_type(a):
+       global q0
+       q0 = a
+       print(f"차량 타입으로 {CAR_TYPE_LABEL[CarType(a)]}을 선택하셨습니다.")
+   ```
+
+4. `assembly.py`의 `run_produced_car()` 안에 있는 아래 if/elif 블록:
+
+   ```python
+   if q0 == 1:
+       print("Car Type : Sedan")
+   elif q0 == 2:
+       print("Car Type : SUV")
+   elif q0 == 3:
+       print("Car Type : Truck")
+   ```
+
+   을 아래 한 줄로 교체:
+
+   ```python
+   print(f"Car Type : {CAR_TYPE_LABEL[CarType(q0)]}")
+   ```
+
+5. 통합 후 확인: `pytest tests/test_assembly_characterization.py -v` -> 여전히 16개 전부 PASS 확인
+6. 커밋:
+   ```bash
+   git add assembly.py
+   git commit -m "Integrate CarType into assembly.py (strangler-fig cutover, small step)"
+   ```
+
+원본의 `SEDAN`/`SUV`/`TRUCK` 상수와 `q0` 전역 변수는 아직 그대로 둔다 — `is_valid_check()`/`test_produced_car()`가 여전히 이 상수를 참조하기 때문(Phase 7에서 함께 정리).
+
+## 구현 확인 체크리스트 추가 (assembly.py 통합)
+
+- [ ] `select_car_type()`과 `run_produced_car()`의 차량 타입 출력이 `car_assembly.car_type`에 위임되었는지 확인
+- [ ] `pytest tests/test_assembly_characterization.py -v` 실행 결과 통합 전후 모두 16개 PASS(회귀 없음)
+- [ ] `SEDAN`/`SUV`/`TRUCK` 상수, `q0` 전역 변수는 아직 남아있는지 확인(Phase 7에서 정리 예정이므로 지금 지우면 안 됨)

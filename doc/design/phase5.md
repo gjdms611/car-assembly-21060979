@@ -150,3 +150,51 @@ Phase 4(`EnginePart` 계열) 완료.
 - [ ] 선택 메시지가 전부 대문자인지 확인: `"MANDO 제동장치를 선택하셨습니다."` 등
 - [ ] `run_label()`은 대문자가 아니라 원래 표기(`"Mando"`, `"Continental"`, `"Bosch"`)를 반환하는지 확인
 - [ ] `pytest tests/test_parts.py -v -k Brake` 실행 결과 전부 PASS
+
+## 태스크 5.5: assembly.py 통합 (strangler-fig 컷오버)
+
+1. 통합 전 확인: `pytest tests/test_assembly_characterization.py -v` -> 전부 PASS 확인
+2. `assembly.py`의 `ENGINE_BY_CODE` import 줄을 아래로 교체:
+
+   ```python
+   from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE
+   ```
+
+3. `assembly.py`의 `select_brake()` 함수 전체를 아래로 교체:
+
+   ```python
+   def select_brake(a):
+       global q2
+       q2 = a
+       print(BRAKE_BY_CODE[a]().selection_message())
+   ```
+
+4. `assembly.py`의 `run_produced_car()` 안에 있는 아래 if/elif 블록:
+
+   ```python
+   if q2 == 1:
+       print("Brake    : Mando")
+   elif q2 == 2:
+       print("Brake    : Continental")
+   elif q2 == 3:
+       print("Brake    : Bosch")
+   ```
+
+   을 아래 한 줄로 교체:
+
+   ```python
+   print(f"Brake    : {BRAKE_BY_CODE[q2]().run_label()}")
+   ```
+
+5. 통합 후 확인: `pytest tests/test_assembly_characterization.py -v` -> 여전히 전부 PASS 확인
+6. 커밋:
+   ```bash
+   git add assembly.py
+   git commit -m "Integrate BrakePart into assembly.py (strangler-fig cutover, small step)"
+   ```
+
+## 구현 확인 체크리스트 추가 (assembly.py 통합)
+
+- [ ] `select_brake()`와 `run_produced_car()`의 브레이크 출력이 `BRAKE_BY_CODE` 위임으로 교체되었는지 확인
+- [ ] `pytest tests/test_assembly_characterization.py -v` 실행 결과 통합 전후 모두 PASS(회귀 없음)
+- [ ] `MANDO`/`CONTINENTAL`/`BOSCH_B` 상수, `q2` 전역 변수는 아직 남아있는지 확인(Phase 7에서 정리 예정)

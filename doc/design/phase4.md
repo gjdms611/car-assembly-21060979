@@ -172,3 +172,55 @@ Phase 3(`CarTypeConstrained`) 완료.
   - `BrokenEngine().selection_message() == "고장난 엔진을 선택하셨습니다."`, `run_label() is None`
 - [ ] `ENGINE_BY_CODE`의 키(1~4)가 원본 메뉴 번호(`1.GM 2.TOYOTA 3.WIA 4.고장난 엔진`)와 정확히 일치하는지 확인
 - [ ] `pytest tests/test_parts.py -v -k Engine` 실행 결과 전부 PASS
+
+## 태스크 4.6: assembly.py 통합 (strangler-fig 컷오버)
+
+1. 통합 전 확인: `pytest tests/test_assembly_characterization.py -v` -> 전부 PASS 확인
+2. `assembly.py` 최상단 import 영역에 추가:
+
+   ```python
+   from car_assembly.parts import ENGINE_BY_CODE
+   ```
+
+3. `assembly.py`의 `select_engine()` 함수 전체를 아래로 교체:
+
+   ```python
+   def select_engine(a):
+       global q1
+       q1 = a
+       print(ENGINE_BY_CODE[a]().selection_message())
+   ```
+
+4. `assembly.py`의 `run_produced_car()` 안에 있는 아래 if/elif 블록:
+
+   ```python
+   if q1 == 1:
+       print("Engine   : GM")
+   elif q1 == 2:
+       print("Engine   : TOYOTA")
+   elif q1 == 3:
+       print("Engine   : WIA")
+   ```
+
+   을 아래로 교체:
+
+   ```python
+   engine_label = ENGINE_BY_CODE[q1]().run_label()
+   if engine_label is not None:
+       print(f"Engine   : {engine_label}")
+   ```
+
+   (`BrokenEngine.run_label()`이 `None`을 반환하므로 `q1 == 4`일 때 이 줄이 자동으로 생략된다 — 다만 `run_produced_car()`는 이 지점에 도달하기 전에 이미 `if q1 == 4:` 분기에서 return하므로 실제로는 도달하지 않는 방어적 코드다.)
+
+5. 통합 후 확인: `pytest tests/test_assembly_characterization.py -v` -> 여전히 전부 PASS 확인
+6. 커밋:
+   ```bash
+   git add assembly.py
+   git commit -m "Integrate EnginePart into assembly.py (strangler-fig cutover, small step)"
+   ```
+
+## 구현 확인 체크리스트 추가 (assembly.py 통합)
+
+- [ ] `select_engine()`과 `run_produced_car()`의 엔진 출력이 `ENGINE_BY_CODE` 위임으로 교체되었는지 확인
+- [ ] `pytest tests/test_assembly_characterization.py -v` 실행 결과 통합 전후 모두 PASS(회귀 없음)
+- [ ] `GM`/`TOYOTA`/`WIA` 상수, `q1` 전역 변수는 아직 남아있는지 확인(Phase 7에서 정리 예정)

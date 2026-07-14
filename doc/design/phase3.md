@@ -82,3 +82,7 @@ Phase 2(`Part`) 완료.
 - [ ] `unsupported_car_type`이 기본값 `None`인 부품은 어떤 차량 타입과도 항상 호환되는지 확인
 - [ ] `pytest tests/test_parts.py -v` 실행 결과 4개 테스트 모두 PASS
 - [ ] `car_assembly/parts.py`에 아직 `EnginePart`/`BrakePart`/`SteeringPart`가 없는지 확인(Phase 순서를 건너뛰지 않았는지 검증)
+
+## assembly.py 통합에 대해
+
+이 Phase도 Phase 2와 같은 이유로 assembly.py를 통합하지 않는다. `CarTypeConstrained`는 믹스인일 뿐, 이를 실제로 사용하는 구체 부품(`EnginePart`/`BrakePart`)이 아직 없다. 이 믹스인의 효과는 Phase 4(`EnginePart`)에서 assembly.py에 처음 연결되면서 드러난다.
