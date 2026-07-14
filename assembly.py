@@ -13,21 +13,6 @@ brakeSystem_Q = 2
 SteeringSystem_Q = 3
 Run_Test = 4
 
-SEDAN = 1
-SUV = 2
-TRUCK = 3
-
-GM = 1
-TOYOTA = 2
-WIA = 3
-
-MANDO = 1
-CONTINENTAL = 2
-BOSCH_B = 3
-
-BOSCH_S = 1
-MOBIS = 2
-
 q0 = 0
 q1 = 0
 q2 = 0
@@ -130,9 +115,6 @@ def build_from_globals():
         brake=BRAKE_BY_CODE[q2](),
         steering=STEERING_BY_CODE[q3](),
     )
-
-def is_valid_check():
-    return build_from_globals().is_compatible()
 
 def run_produced_car():
     for line in build_from_globals().run_report():
