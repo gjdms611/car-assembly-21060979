@@ -13,3 +13,18 @@ class Part(ABC):
 
     def run_label(self) -> Optional[str]:
         return self.label
+
+
+from car_assembly.car_type import CAR_TYPE_LABEL, CarType
+
+
+class CarTypeConstrained:
+    """특정 차량 타입과 호환되지 않는 부품(엔진/제동장치)이 공유하는 믹스인."""
+
+    unsupported_car_type: Optional[CarType] = None
+    car_type_conflict_noun: str = ""
+
+    def incompatibility_with_car_type(self, car_type: CarType) -> Optional[str]:
+        if self.unsupported_car_type is not None and car_type == self.unsupported_car_type:
+            return f"{CAR_TYPE_LABEL[car_type]}에는 {self.label}{self.car_type_conflict_noun} 사용 불가"
+        return None
