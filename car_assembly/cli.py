@@ -69,3 +69,22 @@ def show_menu(step):
         print("1. RUN")
         print("2. Test")
     print("===============================")
+
+
+def is_valid_range(step, ans):
+    if step == STEP_CAR_TYPE and not (1 <= ans <= 3):
+        print("ERROR :: 차량 타입은 1 ~ 3 범위만 선택 가능")
+        return False
+    if step == STEP_ENGINE and not (0 <= ans <= 4):
+        print("ERROR :: 엔진은 1 ~ 4 범위만 선택 가능")
+        return False
+    if step == STEP_BRAKE and not (0 <= ans <= 3):
+        print("ERROR :: 제동장치는 1 ~ 3 범위만 선택 가능")
+        return False
+    if step == STEP_STEERING and not (0 <= ans <= 2):
+        print("ERROR :: 조향장치는 1 ~ 2 범위만 선택 가능")
+        return False
+    if step == STEP_RUN_TEST and not (0 <= ans <= 2):
+        print("ERROR :: Run 또는 Test 중 하나를 선택 필요")
+        return False
+    return True

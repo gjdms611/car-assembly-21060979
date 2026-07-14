@@ -1,6 +1,6 @@
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
 from car_assembly.car import CarBuild
-from car_assembly.cli import advance_step, clear, delay, show_menu
+from car_assembly.cli import advance_step, clear, delay, is_valid_range, show_menu
 from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE, STEERING_BY_CODE
 
 q0 = 0
@@ -8,29 +8,6 @@ q1 = 0
 q2 = 0
 q3 = 0
 q4 = 0
-
-def is_valid_range(step, ans):
-    if step == 0:
-        if ans < 1 or ans > 3:
-            print("ERROR :: 차량 타입은 1 ~ 3 범위만 선택 가능")
-            return False
-    if step == 1:
-        if ans < 0 or ans > 4:
-            print("ERROR :: 엔진은 1 ~ 4 범위만 선택 가능")
-            return False
-    if step == 2:
-        if ans < 0 or ans > 3:
-            print("ERROR :: 제동장치는 1 ~ 3 범위만 선택 가능")
-            return False
-    if step == 3:
-        if ans < 0 or ans > 2:
-            print("ERROR :: 조향장치는 1 ~ 2 범위만 선택 가능")
-            return False
-    if step == 4:
-        if ans < 0 or ans > 2:
-            print("ERROR :: Run 또는 Test 중 하나를 선택 필요")
-            return False
-    return True
 
 def select_car_type(a):
     global q0
