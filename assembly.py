@@ -3,6 +3,7 @@ import sys
 
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
 from car_assembly.car import CarBuild
+from car_assembly.cli import advance_step
 from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE, STEERING_BY_CODE
 
 CLEAR_SCREEN = "\033[H\033[2J"
@@ -145,28 +146,21 @@ def main():
             continue
 
         if ans == 0:
-            if step == 4:
-                step = 0
-            elif step > 0:
-                step = step - 1
+            step = advance_step(step, ans)
             continue
 
         if step == 0:
             select_car_type(ans)
             delay(800)
-            step = 1
         elif step == 1:
             select_engine(ans)
             delay(800)
-            step = 2
         elif step == 2:
             select_brake(ans)
             delay(800)
-            step = 3
         elif step == 3:
             select_steering(ans)
             delay(800)
-            step = 4
         elif step == 4:
             if ans == 1:
                 run_produced_car()
@@ -176,6 +170,8 @@ def main():
                 delay(1500)
                 test_produced_car()
                 delay(2000)
+
+        step = advance_step(step, ans)
 
 if __name__ == "__main__":
     main()
