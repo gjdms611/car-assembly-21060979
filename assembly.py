@@ -1,48 +1,36 @@
-from car_assembly.car_type import CAR_TYPE_LABEL, CarType
+from car_assembly.car_type import CarType
 from car_assembly.car import CarBuild
 from car_assembly.cli import advance_step, car_type_selection_message, clear, delay, is_valid_range, show_menu
 from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE, STEERING_BY_CODE
 
-q0 = 0
-q1 = 0
-q2 = 0
-q3 = 0
-q4 = 0
+build = CarBuild()
 
 def select_car_type(a):
-    global q0
-    q0 = a
-    print(car_type_selection_message(CarType(a)))
+    global build
+    build.car_type = CarType(a)
+    print(car_type_selection_message(build.car_type))
 
 def select_engine(a):
-    global q1
-    q1 = a
-    print(ENGINE_BY_CODE[a]().selection_message())
+    global build
+    build.engine = ENGINE_BY_CODE[a]()
+    print(build.engine.selection_message())
 
 def select_brake(a):
-    global q2
-    q2 = a
-    print(BRAKE_BY_CODE[a]().selection_message())
+    global build
+    build.brake = BRAKE_BY_CODE[a]()
+    print(build.brake.selection_message())
 
 def select_steering(a):
-    global q3
-    q3 = a
-    print(STEERING_BY_CODE[a]().selection_message())
-
-def build_from_globals():
-    return CarBuild(
-        car_type=CarType(q0),
-        engine=ENGINE_BY_CODE[q1](),
-        brake=BRAKE_BY_CODE[q2](),
-        steering=STEERING_BY_CODE[q3](),
-    )
+    global build
+    build.steering = STEERING_BY_CODE[a]()
+    print(build.steering.selection_message())
 
 def run_produced_car():
-    for line in build_from_globals().run_report():
+    for line in build.run_report():
         print(line)
 
 def test_produced_car():
-    print(build_from_globals().test_report())
+    print(build.test_report())
 
 def main():
     step = 0
