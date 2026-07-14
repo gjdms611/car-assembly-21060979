@@ -2,6 +2,7 @@ import time
 import sys
 
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
+from car_assembly.car import CarBuild
 from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE, STEERING_BY_CODE
 
 CLEAR_SCREEN = "\033[H\033[2J"
@@ -122,18 +123,16 @@ def select_steering(a):
     q3 = a
     print(STEERING_BY_CODE[a]().selection_message())
 
+def build_from_globals():
+    return CarBuild(
+        car_type=CarType(q0),
+        engine=ENGINE_BY_CODE[q1](),
+        brake=BRAKE_BY_CODE[q2](),
+        steering=STEERING_BY_CODE[q3](),
+    )
+
 def is_valid_check():
-    if q0 == SEDAN and q2 == CONTINENTAL:
-        return False
-    if q0 == SUV and q1 == TOYOTA:
-        return False
-    if q0 == TRUCK and q1 == WIA:
-        return False
-    if q0 == TRUCK and q2 == MANDO:
-        return False
-    if q2 == BOSCH_B and q3 != BOSCH_S:
-        return False
-    return True
+    return build_from_globals().is_compatible()
 
 def run_produced_car():
     if not is_valid_check():
