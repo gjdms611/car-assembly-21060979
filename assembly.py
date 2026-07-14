@@ -1,6 +1,8 @@
 import time
 import sys
 
+from car_assembly.car_type import CAR_TYPE_LABEL, CarType
+
 CLEAR_SCREEN = "\033[H\033[2J"
 
 CarType_Q = 0
@@ -102,12 +104,7 @@ def is_valid_range(step, ans):
 def select_car_type(a):
     global q0
     q0 = a
-    if a == 1:
-        print("차량 타입으로 Sedan을 선택하셨습니다.")
-    elif a == 2:
-        print("차량 타입으로 SUV을 선택하셨습니다.")
-    elif a == 3:
-        print("차량 타입으로 Truck을 선택하셨습니다.")
+    print(f"차량 타입으로 {CAR_TYPE_LABEL[CarType(a)]}을 선택하셨습니다.")
 
 def select_engine(a):
     global q1
@@ -161,12 +158,7 @@ def run_produced_car():
         print("자동차가 움직이지 않습니다.")
         return
 
-    if q0 == 1:
-        print("Car Type : Sedan")
-    elif q0 == 2:
-        print("Car Type : SUV")
-    elif q0 == 3:
-        print("Car Type : Truck")
+    print(f"Car Type : {CAR_TYPE_LABEL[CarType(q0)]}")
 
     if q1 == 1:
         print("Engine   : GM")
