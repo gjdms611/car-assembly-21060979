@@ -2,7 +2,7 @@ import time
 import sys
 
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
-from car_assembly.parts import ENGINE_BY_CODE
+from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE
 
 CLEAR_SCREEN = "\033[H\033[2J"
 
@@ -115,12 +115,7 @@ def select_engine(a):
 def select_brake(a):
     global q2
     q2 = a
-    if a == 1:
-        print("MANDO 제동장치를 선택하셨습니다.")
-    elif a == 2:
-        print("CONTINENTAL 제동장치를 선택하셨습니다.")
-    elif a == 3:
-        print("BOSCH 제동장치를 선택하셨습니다.")
+    print(BRAKE_BY_CODE[a]().selection_message())
 
 def select_steering(a):
     global q3
@@ -158,12 +153,7 @@ def run_produced_car():
     if engine_label is not None:
         print(f"Engine   : {engine_label}")
 
-    if q2 == 1:
-        print("Brake    : Mando")
-    elif q2 == 2:
-        print("Brake    : Continental")
-    elif q2 == 3:
-        print("Brake    : Bosch")
+    print(f"Brake    : {BRAKE_BY_CODE[q2]().run_label()}")
 
     if q3 == 1:
         print("Steering : Bosch")
