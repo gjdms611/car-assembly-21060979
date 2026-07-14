@@ -46,3 +46,39 @@ def test_is_compatible_true_for_valid_build():
 def test_is_compatible_false_for_invalid_build():
     build = CarBuild(CarType.SEDAN, GMEngine(), ContinentalBrake(), MobisSteering())
     assert build.is_compatible() is False
+
+
+def test_run_report_incompatible():
+    build = CarBuild(CarType.SEDAN, GMEngine(), ContinentalBrake(), MobisSteering())
+    assert build.run_report() == ["자동차가 동작되지 않습니다"]
+
+
+def test_run_report_broken_engine():
+    build = CarBuild(CarType.SEDAN, BrokenEngine(), MandoBrake(), MobisSteering())
+    assert build.run_report() == ["엔진이 고장나있습니다.", "자동차가 움직이지 않습니다."]
+
+
+def test_run_report_success():
+    build = CarBuild(CarType.SEDAN, GMEngine(), MandoBrake(), MobisSteering())
+    assert build.run_report() == [
+        "Car Type : Sedan",
+        "Engine   : GM",
+        "Brake    : Mando",
+        "Steering : Mobis",
+        "자동차가 동작됩니다.",
+    ]
+
+
+def test_test_report_fail():
+    build = CarBuild(CarType.SEDAN, GMEngine(), ContinentalBrake(), MobisSteering())
+    assert build.test_report() == "FAIL\nSedan에는 Continental제동장치 사용 불가"
+
+
+def test_test_report_pass():
+    build = CarBuild(CarType.SEDAN, GMEngine(), MandoBrake(), MobisSteering())
+    assert build.test_report() == "PASS"
+
+
+def test_test_report_pass_even_with_broken_engine():
+    build = CarBuild(CarType.SEDAN, BrokenEngine(), MandoBrake(), MobisSteering())
+    assert build.test_report() == "PASS"
