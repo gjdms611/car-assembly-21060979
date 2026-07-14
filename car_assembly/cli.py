@@ -1,7 +1,9 @@
 import sys
 import time
 
+from car_assembly.car import CarBuild
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
+from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE, STEERING_BY_CODE
 
 CLEAR_SCREEN = "\033[H\033[2J"
 
@@ -94,3 +96,86 @@ def is_valid_range(step, ans):
 
 def car_type_selection_message(car_type: CarType) -> str:
     return f"차량 타입으로 {CAR_TYPE_LABEL[car_type]}을 선택하셨습니다."
+
+
+build = CarBuild()
+
+def select_car_type(a):
+    global build
+    build.car_type = CarType(a)
+    print(car_type_selection_message(build.car_type))
+
+def select_engine(a):
+    global build
+    build.engine = ENGINE_BY_CODE[a]()
+    print(build.engine.selection_message())
+
+def select_brake(a):
+    global build
+    build.brake = BRAKE_BY_CODE[a]()
+    print(build.brake.selection_message())
+
+def select_steering(a):
+    global build
+    build.steering = STEERING_BY_CODE[a]()
+    print(build.steering.selection_message())
+
+def run_produced_car():
+    for line in build.run_report():
+        print(line)
+
+def test_produced_car():
+    print(build.test_report())
+
+def main():
+    step = 0
+    while True:
+        show_menu(step)
+        buf = input("INPUT > ").strip()
+
+        if buf == "exit":
+            print("바이바이")
+            break
+
+        try:
+            ans = int(buf)
+        except:
+            print("ERROR :: 숫자만 입력 가능")
+            delay(800)
+            continue
+
+        if not is_valid_range(step, ans):
+            delay(800)
+            continue
+
+        if ans == 0:
+            step = advance_step(step, ans)
+            continue
+
+        if step == 0:
+            select_car_type(ans)
+            delay(800)
+        elif step == 1:
+            select_engine(ans)
+            delay(800)
+        elif step == 2:
+            select_brake(ans)
+            delay(800)
+        elif step == 3:
+            select_steering(ans)
+            delay(800)
+        elif step == 4:
+            if ans == 1:
+                run_produced_car()
+                delay(2000)
+            elif ans == 2:
+                print("Test...")
+                delay(1500)
+                test_produced_car()
+                delay(2000)
+
+        step = advance_step(step, ans)
+
+
+if __name__ == "__main__":
+    main()
