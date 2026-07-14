@@ -1,6 +1,8 @@
 import sys
 import time
 
+from car_assembly.car_type import CAR_TYPE_LABEL, CarType
+
 CLEAR_SCREEN = "\033[H\033[2J"
 
 
@@ -88,3 +90,7 @@ def is_valid_range(step, ans):
         print("ERROR :: Run 또는 Test 중 하나를 선택 필요")
         return False
     return True
+
+
+def car_type_selection_message(car_type: CarType) -> str:
+    return f"차량 타입으로 {CAR_TYPE_LABEL[car_type]}을 선택하셨습니다."

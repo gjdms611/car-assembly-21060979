@@ -1,6 +1,6 @@
 from car_assembly.car_type import CAR_TYPE_LABEL, CarType
 from car_assembly.car import CarBuild
-from car_assembly.cli import advance_step, clear, delay, is_valid_range, show_menu
+from car_assembly.cli import advance_step, car_type_selection_message, clear, delay, is_valid_range, show_menu
 from car_assembly.parts import BRAKE_BY_CODE, ENGINE_BY_CODE, STEERING_BY_CODE
 
 q0 = 0
@@ -12,7 +12,7 @@ q4 = 0
 def select_car_type(a):
     global q0
     q0 = a
-    print(f"차량 타입으로 {CAR_TYPE_LABEL[CarType(a)]}을 선택하셨습니다.")
+    print(car_type_selection_message(CarType(a)))
 
 def select_engine(a):
     global q1
