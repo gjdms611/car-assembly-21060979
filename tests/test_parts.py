@@ -111,3 +111,19 @@ def test_continental_brake_incompatible_with_sedan():
     assert brake.incompatibility_with_car_type(CarType.SEDAN) == "Sedan에는 Continental제동장치 사용 불가"
     assert brake.selection_message() == "CONTINENTAL 제동장치를 선택하셨습니다."
     assert brake.run_label() == "Continental"
+
+
+from car_assembly.parts import BoschBrake
+
+
+class _FakeSteering:
+    def __init__(self, is_bosch):
+        self.is_bosch = is_bosch
+
+
+def test_bosch_brake_requires_bosch_steering():
+    brake = BoschBrake()
+    assert brake.incompatibility_with_steering(_FakeSteering(False)) == "Bosch제동장치에는 Bosch조향장치 이외 사용 불가"
+    assert brake.incompatibility_with_steering(_FakeSteering(True)) is None
+    assert brake.incompatibility_with_car_type(CarType.SEDAN) is None
+    assert brake.selection_message() == "BOSCH 제동장치를 선택하셨습니다."

@@ -80,3 +80,8 @@ class MandoBrake(BrakePart):
 class ContinentalBrake(BrakePart):
     label = "Continental"
     unsupported_car_type = CarType.SEDAN
+
+
+class BoschBrake(BrakePart):
+    label = "Bosch"
+    requires_bosch_steering = True
