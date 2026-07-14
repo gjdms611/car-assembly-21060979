@@ -50,3 +50,13 @@ def test_gm_engine_compatible_with_every_car_type():
     assert engine.incompatibility_with_car_type(CarType.SEDAN) is None
     assert engine.incompatibility_with_car_type(CarType.SUV) is None
     assert engine.incompatibility_with_car_type(CarType.TRUCK) is None
+
+
+from car_assembly.parts import ToyotaEngine
+
+
+def test_toyota_engine_incompatible_with_suv():
+    engine = ToyotaEngine()
+    assert engine.incompatibility_with_car_type(CarType.SUV) == "SUV에는 TOYOTA엔진 사용 불가"
+    assert engine.incompatibility_with_car_type(CarType.SEDAN) is None
+    assert engine.selection_message() == "TOYOTA 엔진을 선택하셨습니다."

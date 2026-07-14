@@ -38,3 +38,8 @@ class EnginePart(CarTypeConstrained, Part):
 
 class GMEngine(EnginePart):
     label = "GM"
+
+
+class ToyotaEngine(EnginePart):
+    label = "TOYOTA"
+    unsupported_car_type = CarType.SUV
