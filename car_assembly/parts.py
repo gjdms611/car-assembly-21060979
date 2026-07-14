@@ -43,3 +43,8 @@ class GMEngine(EnginePart):
 class ToyotaEngine(EnginePart):
     label = "TOYOTA"
     unsupported_car_type = CarType.SUV
+
+
+class WIAEngine(EnginePart):
+    label = "WIA"
+    unsupported_car_type = CarType.TRUCK

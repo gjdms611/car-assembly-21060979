@@ -60,3 +60,12 @@ def test_toyota_engine_incompatible_with_suv():
     assert engine.incompatibility_with_car_type(CarType.SUV) == "SUV에는 TOYOTA엔진 사용 불가"
     assert engine.incompatibility_with_car_type(CarType.SEDAN) is None
     assert engine.selection_message() == "TOYOTA 엔진을 선택하셨습니다."
+
+
+from car_assembly.parts import WIAEngine
+
+
+def test_wia_engine_incompatible_with_truck():
+    engine = WIAEngine()
+    assert engine.incompatibility_with_car_type(CarType.TRUCK) == "Truck에는 WIA엔진 사용 불가"
+    assert engine.selection_message() == "WIA 엔진을 선택하셨습니다."
