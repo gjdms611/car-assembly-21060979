@@ -102,3 +102,6 @@ class BoschSteering(SteeringPart):
 
 class MobisSteering(SteeringPart):
     label = "Mobis"
+
+
+STEERING_BY_CODE = {1: BoschSteering, 2: MobisSteering}

@@ -156,3 +156,17 @@ def test_mobis_steering():
     assert steering.is_bosch is False
     assert steering.selection_message() == "MOBIS 조향장치를 선택하셨습니다."
     assert steering.run_label() == "Mobis"
+
+
+from car_assembly.parts import STEERING_BY_CODE, BoschBrake, BoschSteering, MobisSteering
+
+
+def test_steering_by_code_maps_input_number_to_class():
+    assert STEERING_BY_CODE[1] is BoschSteering
+    assert STEERING_BY_CODE[2] is MobisSteering
+
+
+def test_bosch_brake_with_real_steering_classes():
+    brake = BoschBrake()
+    assert brake.incompatibility_with_steering(BoschSteering()) is None
+    assert brake.incompatibility_with_steering(MobisSteering()) == "Bosch제동장치에는 Bosch조향장치 이외 사용 불가"
