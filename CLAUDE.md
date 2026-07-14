@@ -8,6 +8,7 @@ Python 프로젝트
 
 - 실행: `python assembly.py`
 - 대화형 종료: 아무 프롬프트에서나 `exit` 입력
+- 테스트 실행: `pytest`
 
 ## 비즈니스 규칙
 
