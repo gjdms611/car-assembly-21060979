@@ -80,3 +80,13 @@ def test_broken_engine_is_broken_and_has_no_run_label():
     assert engine.run_label() is None
     assert engine.selection_message() == "고장난 엔진을 선택하셨습니다."
     assert engine.incompatibility_with_car_type(CarType.SEDAN) is None
+
+
+from car_assembly.parts import ENGINE_BY_CODE, BrokenEngine, GMEngine, ToyotaEngine, WIAEngine
+
+
+def test_engine_by_code_maps_input_number_to_class():
+    assert ENGINE_BY_CODE[1] is GMEngine
+    assert ENGINE_BY_CODE[2] is ToyotaEngine
+    assert ENGINE_BY_CODE[3] is WIAEngine
+    assert ENGINE_BY_CODE[4] is BrokenEngine

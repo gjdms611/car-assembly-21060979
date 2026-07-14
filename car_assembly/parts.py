@@ -56,3 +56,6 @@ class BrokenEngine(EnginePart):
 
     def run_label(self) -> Optional[str]:
         return None
+
+
+ENGINE_BY_CODE = {1: GMEngine, 2: ToyotaEngine, 3: WIAEngine, 4: BrokenEngine}
