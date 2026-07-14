@@ -85,3 +85,6 @@ class ContinentalBrake(BrakePart):
 class BoschBrake(BrakePart):
     label = "Bosch"
     requires_bosch_steering = True
+
+
+BRAKE_BY_CODE = {1: MandoBrake, 2: ContinentalBrake, 3: BoschBrake}

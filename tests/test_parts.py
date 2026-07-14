@@ -127,3 +127,12 @@ def test_bosch_brake_requires_bosch_steering():
     assert brake.incompatibility_with_steering(_FakeSteering(True)) is None
     assert brake.incompatibility_with_car_type(CarType.SEDAN) is None
     assert brake.selection_message() == "BOSCH 제동장치를 선택하셨습니다."
+
+
+from car_assembly.parts import BRAKE_BY_CODE, BoschBrake, ContinentalBrake, MandoBrake
+
+
+def test_brake_by_code_maps_input_number_to_class():
+    assert BRAKE_BY_CODE[1] is MandoBrake
+    assert BRAKE_BY_CODE[2] is ContinentalBrake
+    assert BRAKE_BY_CODE[3] is BoschBrake
