@@ -90,3 +90,14 @@ def test_engine_by_code_maps_input_number_to_class():
     assert ENGINE_BY_CODE[2] is ToyotaEngine
     assert ENGINE_BY_CODE[3] is WIAEngine
     assert ENGINE_BY_CODE[4] is BrokenEngine
+
+
+from car_assembly.parts import MandoBrake
+
+
+def test_mando_brake_incompatible_with_truck():
+    brake = MandoBrake()
+    assert brake.incompatibility_with_car_type(CarType.TRUCK) == "Truck에는 Mando제동장치 사용 불가"
+    assert brake.incompatibility_with_car_type(CarType.SEDAN) is None
+    assert brake.selection_message() == "MANDO 제동장치를 선택하셨습니다."
+    assert brake.run_label() == "Mando"

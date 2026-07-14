@@ -59,3 +59,19 @@ class BrokenEngine(EnginePart):
 
 
 ENGINE_BY_CODE = {1: GMEngine, 2: ToyotaEngine, 3: WIAEngine, 4: BrokenEngine}
+
+
+class BrakePart(CarTypeConstrained, Part):
+    unit_label = "제동장치를"
+    car_type_conflict_noun = "제동장치"
+    requires_bosch_steering: bool = False
+
+    def incompatibility_with_steering(self, steering) -> Optional[str]:
+        if self.requires_bosch_steering and not steering.is_bosch:
+            return "Bosch제동장치에는 Bosch조향장치 이외 사용 불가"
+        return None
+
+
+class MandoBrake(BrakePart):
+    label = "Mando"
+    unsupported_car_type = CarType.TRUCK
