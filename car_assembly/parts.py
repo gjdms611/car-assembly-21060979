@@ -48,3 +48,11 @@ class ToyotaEngine(EnginePart):
 class WIAEngine(EnginePart):
     label = "WIA"
     unsupported_car_type = CarType.TRUCK
+
+
+class BrokenEngine(EnginePart):
+    label = "고장난"
+    is_broken = True
+
+    def run_label(self) -> Optional[str]:
+        return None

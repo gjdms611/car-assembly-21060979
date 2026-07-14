@@ -69,3 +69,14 @@ def test_wia_engine_incompatible_with_truck():
     engine = WIAEngine()
     assert engine.incompatibility_with_car_type(CarType.TRUCK) == "Truck에는 WIA엔진 사용 불가"
     assert engine.selection_message() == "WIA 엔진을 선택하셨습니다."
+
+
+from car_assembly.parts import BrokenEngine
+
+
+def test_broken_engine_is_broken_and_has_no_run_label():
+    engine = BrokenEngine()
+    assert engine.is_broken is True
+    assert engine.run_label() is None
+    assert engine.selection_message() == "고장난 엔진을 선택하셨습니다."
+    assert engine.incompatibility_with_car_type(CarType.SEDAN) is None
