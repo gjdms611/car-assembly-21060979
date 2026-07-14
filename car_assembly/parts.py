@@ -75,3 +75,8 @@ class BrakePart(CarTypeConstrained, Part):
 class MandoBrake(BrakePart):
     label = "Mando"
     unsupported_car_type = CarType.TRUCK
+
+
+class ContinentalBrake(BrakePart):
+    label = "Continental"
+    unsupported_car_type = CarType.SEDAN

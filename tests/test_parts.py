@@ -101,3 +101,13 @@ def test_mando_brake_incompatible_with_truck():
     assert brake.incompatibility_with_car_type(CarType.SEDAN) is None
     assert brake.selection_message() == "MANDO 제동장치를 선택하셨습니다."
     assert brake.run_label() == "Mando"
+
+
+from car_assembly.parts import ContinentalBrake
+
+
+def test_continental_brake_incompatible_with_sedan():
+    brake = ContinentalBrake()
+    assert brake.incompatibility_with_car_type(CarType.SEDAN) == "Sedan에는 Continental제동장치 사용 불가"
+    assert brake.selection_message() == "CONTINENTAL 제동장치를 선택하셨습니다."
+    assert brake.run_label() == "Continental"
